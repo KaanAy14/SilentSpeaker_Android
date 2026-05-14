@@ -44,6 +44,9 @@
         <activity
             android:name="com.example.silentspeaker.ProfileActivity"
             android:exported="false" />
+        <activity
+            android:name="com.example.silentspeaker.TextToSignActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

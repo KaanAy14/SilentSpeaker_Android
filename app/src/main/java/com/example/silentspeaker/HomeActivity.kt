@@ -25,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
         val btnTranslator = findViewById<View>(R.id.btnTranslator)
         val btnLearningModule = findViewById<View>(R.id.btnLearningModule)
         val btnHistory = findViewById<View>(R.id.btnHistory)
+        val btnTextToSign = findViewById<View>(R.id.btnTextToSign)
         val btnThemeToggle = findViewById<Button>(R.id.btnThemeToggle)
 
         val user = FirebaseAuth.getInstance().currentUser
@@ -49,6 +50,7 @@ class HomeActivity : AppCompatActivity() {
         btnTranslator.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
         btnLearningModule.setOnClickListener { startActivity(Intent(this, LearningMenuActivity::class.java)) }
         btnHistory.setOnClickListener { startActivity(Intent(this, HistoryActivity::class.java)) }
+        btnTextToSign.setOnClickListener { startActivity(Intent(this, TextToSignActivity::class.java)) }
         findViewById<View>(R.id.btnProfile).setOnClickListener { startActivity(Intent(this, ProfileActivity::class.java)) }
 
         setupProgressCard()
