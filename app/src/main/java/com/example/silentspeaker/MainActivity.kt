@@ -256,6 +256,7 @@ class MainActivity : AppCompatActivity() {
                     .format(java.util.Date())
                 hist.add(0, "$time - $predictedWord")
                 sp.edit().putString("history", com.google.gson.Gson().toJson(hist)).apply()
+                UserSync.push(this@MainActivity)
 
                 val top3Text = top3.mapIndexed { i, p ->
                     "${i + 1}. ${p.word}"

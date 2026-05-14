@@ -81,6 +81,7 @@ class HistoryActivity : AppCompatActivity() {
         sharedPref.edit()
             .putString("history", com.google.gson.Gson().toJson(historyList))
             .apply()
+        UserSync.push(this)
         applyAdapter()
     }
 }

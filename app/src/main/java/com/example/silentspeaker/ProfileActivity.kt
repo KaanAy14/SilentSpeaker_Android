@@ -4,33 +4,37 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfileActivity : AppCompatActivity() {
+
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        val sharedPref = getSharedPreferences("SilentSpeakerPrefs", Context.MODE_PRIVATE)
+        val user = auth.currentUser
         val themePref = getSharedPreferences("AppTheme", Context.MODE_PRIVATE)
 
-        // Avatar + username
-        val username = sharedPref.getString("username", "?") ?: "?"
-        findViewById<TextView>(R.id.tvUsername).text = username
-        findViewById<TextView>(R.id.tvAvatarLetter).text = username.first().uppercaseChar().toString()
+        val displayName = user?.displayName?.takeIf { it.isNotEmpty() }
+            ?: user?.email?.substringBefore("@")
+            ?: "?"
 
-        // Stats
+        findViewById<TextView>(R.id.tvUsername).text = displayName
+        findViewById<TextView>(R.id.tvAvatarLetter).text = displayName.first().uppercaseChar().toString()
+        findViewById<TextView>(R.id.tvUserEmail).text = user?.email ?: ""
+
+        // Stats (local SharedPreferences — migrated to Firestore later if needed)
         findViewById<TextView>(R.id.tvStatStreak).text = ProgressTracker.getStreak(this).toString()
         findViewById<TextView>(R.id.tvStatSigns).text = ProgressTracker.getSignsLearned(this).toString()
         findViewById<TextView>(R.id.tvStatSessions).text = ProgressTracker.getTotalSessions(this).toString()
 
-        // Theme row
         updateThemeRow(themePref.getBoolean("dark_mode", false))
         findViewById<LinearLayout>(R.id.rowTheme).setOnClickListener {
             val newDark = !themePref.getBoolean("dark_mode", false)
@@ -42,7 +46,6 @@ class ProfileActivity : AppCompatActivity() {
             recreate()
         }
 
-        // Reset progress
         findViewById<LinearLayout>(R.id.rowResetProgress).setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Reset Progress")
@@ -57,9 +60,8 @@ class ProfileActivity : AppCompatActivity() {
                 .show()
         }
 
-        // Sign out
         findViewById<Button>(R.id.btnSignOut).setOnClickListener {
-            sharedPref.edit().putBoolean("isLoggedIn", false).apply()
+            auth.signOut()
             startActivity(Intent(this, LoginActivity::class.java))
             finishAffinity()
         }

@@ -46,6 +46,7 @@ object ProgressTracker {
         prefs.edit()
             .putInt("total_sessions", prefs.getInt("total_sessions", 0) + 1)
             .apply()
+        UserSync.push(context)
     }
 
     fun recordSignLearned(context: Context) {
@@ -54,6 +55,7 @@ object ProgressTracker {
         prefs.edit()
             .putInt("signs_learned", prefs.getInt("signs_learned", 0) + 1)
             .apply()
+        UserSync.push(context)
     }
 
     fun getStreak(context: Context): Int =
@@ -94,5 +96,6 @@ object ProgressTracker {
     fun resetProgress(context: Context) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().clear().apply()
         context.getSharedPreferences("TranslationHistory", Context.MODE_PRIVATE).edit().clear().apply()
+        UserSync.push(context)
     }
 }

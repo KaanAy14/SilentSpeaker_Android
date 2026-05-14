@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.auth.FirebaseAuth
 
 class HomeActivity : AppCompatActivity() {
 
@@ -26,10 +27,12 @@ class HomeActivity : AppCompatActivity() {
         val btnHistory = findViewById<View>(R.id.btnHistory)
         val btnThemeToggle = findViewById<Button>(R.id.btnThemeToggle)
 
-        val sharedPref = getSharedPreferences("SilentSpeakerPrefs", Context.MODE_PRIVATE)
-        val username = sharedPref.getString("username", "?") ?: "?"
-        findViewById<TextView>(R.id.tvWelcome).text = "Hello, $username!"
-        findViewById<TextView>(R.id.tvProfileInitial).text = username.first().uppercaseChar().toString()
+        val user = FirebaseAuth.getInstance().currentUser
+        val displayName = user?.displayName?.takeIf { it.isNotEmpty() }
+            ?: user?.email?.substringBefore("@")
+            ?: "?"
+        findViewById<TextView>(R.id.tvWelcome).text = "Hello, $displayName!"
+        findViewById<TextView>(R.id.tvProfileInitial).text = displayName.first().uppercaseChar().toString()
 
         val themePref = getSharedPreferences("AppTheme", Context.MODE_PRIVATE)
         btnThemeToggle.text = if (themePref.getBoolean("dark_mode", false)) "☀️" else "🌙"
