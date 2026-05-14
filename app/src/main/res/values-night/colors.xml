@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Night mode: near-black, easy on the eyes -->
+    <color name="bg_dark">#000000</color>
+    <color name="bg_surface">#080808</color>
+    <color name="bg_card">#0F0F0F</color>
+    <color name="bg_gradient_end">#0A0015</color>
+    <color name="bg_input">#111111</color>
+    <color name="input_border">#2A2A2A</color>
+    <color name="text_secondary">#9A8FBF</color>
+    <color name="text_hint">#4A3A6E</color>
+    <color name="divider">#1E1E1E</color>
+</resources>
