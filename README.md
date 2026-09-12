@@ -2,6 +2,10 @@
 
 SilentSpeaker is a native Android app that translates sign language into text in real time and helps users learn sign language through guided practice. It uses on-device computer vision (MediaPipe) and a TensorFlow Lite model to recognize hand, pose, and face landmarks from the camera feed and classify them into words.
 
+## Project Poster
+
+![SilentSpeaker Poster](docs/poster.jpeg)
+
 ## Features
 
 - **Live Sign Translator** — Point the camera at a hand sign, record a short clip, and get the top-3 predicted words with confidence-based feedback.
